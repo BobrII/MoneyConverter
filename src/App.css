@@ -20,6 +20,7 @@ body{
 
 .header{
   width: 100%;
+  padding: 0.8rem 1rem;
   display: flex;
   background-color: var(--card);
   border-bottom: 1px solid var(--border);
@@ -33,29 +34,18 @@ body{
 
 .left-side{
   display: flex;
-  gap: 3rem;
+  gap: 1.5rem;
   align-items: center;
-
 }
 
 .right-side{
   display: flex;
   align-items: center;
-
   justify-content: center;
   flex-wrap: wrap;
+  text-align: end;
   justify-content: end;
 }
-
-.header{
-  width: 100%;
-  padding: 0.8rem 2rem;
-  display: flex;
-  background-color: var(--card);
-  border-bottom: 1px solid var(--border);
-  justify-content: space-between;
-}
-
 
 .theme_button{
   border-radius: 5px;
@@ -197,6 +187,10 @@ body.dark .input-group {
     display: flex;
     gap: 3rem;
     align-items: center;
+  }
+
+  .header{
+    padding: 0.8rem 2rem;
   }
 
   .converter{
