@@ -14,7 +14,7 @@ async function fetchRates() {
         {cc: 'USD', rate: usdRate, txt: 'USA Dollar'},
         {cc: 'EUR', rate: eurRate, txt: 'Euro'},
         {cc: 'GBP', rate: gbpRate, txt: 'Great Britain Pound'},
-        {cc: 'UAH', rate: uahRate, txt: 'Ukrainian Hryvna'},
+        {cc: 'UAH', rate: 1, txt: 'Ukrainian Hryvna'},
       ],
       updateDate: data.date
     }

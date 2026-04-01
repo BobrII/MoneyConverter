@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { useCurrency } from './useCurrency';
+import Decimal from 'decimal.js';
 
 const calculation = (amount, firstRate, secondRate) => {
   if(!amount) return '';
-  return ((amount * firstRate) / secondRate).toFixed(2);
+  if(parseFloat(amount) < 0) return;
+  return new Decimal(amount).times(firstRate).dividedBy(secondRate).toFixed(2);
 }
+const blockInvalidChar = (e) => ['e', 'E', '-', '+'].includes(e.key) && e.preventDefault();
+
 
 
 
@@ -63,46 +67,75 @@ function App() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const truncate = (num, digits) => {
+    const factor = Math.pow(10, digits);
+    return Math.floor(num * factor) / factor;
+  };
+
+  const inputClear = () => {
+    setAmount1('');
+    setAmount2('');
+  }
+
   return (
     <>
       <header className='header'>
         <div className='title'>
           <h2>Rates carrency</h2>
         </div>
-        {isLoading ? (<p>Loading...</p>) :
-        (
-          <div className='rates'>
-            {rates.slice(0, -1).map((item) => (
-              <p key={item.cc}>
-              <strong>{item.cc}</strong> - {item.rate.toFixed(2)} UAH
-              </p>
-            ))}
+        <div className='header_text'>
+          {isLoading ? (<p>Loading...</p>) :
+            (
+              <div className='rates'>
+                {rates.slice(0, -1).map((item) => (
+                  <p key={item.cc}>
+                   <strong>{item.cc}</strong> - {truncate(item.rate, 2)} UAH
+                  </p>
+                ))}
             
-          </div>
-        )}
+              </div>
+            )
+          }
         <p className='update_text'>Update Date: {updateDate}</p>
-
+        </div>
+        
         <button className='theme_button' onClick={toggleTheme}>
           {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
         </button>
       </header>
-      <main className='converter'>
-        <div className='input-group'>
-          <select className='currency-select' value={rate1?.cc} onChange={handChange1}>
-            {rates.map((item) => (
-              <option key={item.cc} value={item.cc}>{item.cc}</option>
-            ))}
-          </select>
-          <input className='amount-input' type='number' value={amount1} onChange={(e) => handleAmount1(e.target.value)}/>
+      <main>
+        <div className='converter'>
+          <div className='input-group'>
+            <select className='currency-select' value={rate1?.cc} onChange={handChange1}>
+              {rates.map((item) => (
+                <option key={item.cc} value={item.cc}>{item.cc}</option>
+              ))}
+            </select>
+            <input 
+              className='amount-input' 
+              type='number' 
+              value={amount1} 
+              onChange={(e) => handleAmount1(e.target.value)}
+              onKeyDown={blockInvalidChar}
+            />
+          </div>
+          <div className='input-group'>
+            <select className='currency-select' value={rate2?.cc} onChange={handChange2}>
+              {rates.map((item) => (
+                <option key={item.cc} value={item.cc}>{item.cc}</option>
+              ))}
+            </select>
+            <input 
+              className='amount-input' 
+              type='number' 
+              value={amount2} 
+              onChange={(e) => handleAmount2(e.target.value)}
+              onKeyDown={blockInvalidChar}
+            />
+          </div>
         </div>
-        <div className='input-group'>
-          <select className='currency-select' value={rate2?.cc} onChange={handChange2}>
-            {rates.map((item) => (
-              <option key={item.cc} value={item.cc}>{item.cc}</option>
-            ))}
-          </select>
-          <input className='amount-input' type='number' value={amount2} onChange={(e) => handleAmount2(e.target.value)}/>
-        </div>
+        
+        <button className='clearButton' onClick={inputClear}>Clear</button>
       </main>
     </>
   )
