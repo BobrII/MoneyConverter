@@ -8,13 +8,15 @@ const calculation = (amount, firstRate, secondRate) => {
   if(parseFloat(amount) < 0) return;
   return new Decimal(amount).times(firstRate).dividedBy(secondRate).toFixed(2);
 }
-const blockInvalidChar = (e) => ['e', 'E', '-', '+'].includes(e.key) && e.preventDefault();
 
+const blockInvalidChar = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 
 
 
 function App() {
   const {rates, updateDate, isLoading} = useCurrency();
+
+  
 
   const [theme, setTheme] = useState('light');
   
@@ -28,6 +30,7 @@ function App() {
       setRate1(rates.find(r => r.cc === 'USD'));
       setRate2(rates.find(r => r.cc === 'UAH'));
     }
+    
   }, [rates]);
 
   useEffect(() => {
@@ -36,12 +39,14 @@ function App() {
   }, [theme]);
   
   const handleAmount1 = (value) =>{
-    setAmount1(value);
-    setAmount2(calculation(value, rate1.rate, rate2.rate));
+    const cleanValue = value.replace(/[eE+-]/g, '');
+    setAmount1(cleanValue);
+    setAmount2(calculation(cleanValue, rate1.rate, rate2.rate));
   };
   const handleAmount2 = (value) =>{
-    setAmount2(value);
-    setAmount1(calculation(value, rate2.rate, rate1.rate));
+    const cleanValue = value.replace(/[eE+-]/g, '');
+    setAmount2(cleanValue);
+    setAmount1(calculation(cleanValue, rate2.rate, rate1.rate));
   };
 
   const handChange1 = (e) =>{
@@ -119,8 +124,12 @@ function App() {
                 className='amount-input' 
                 type='number' 
                 value={amount1} 
-                onChange={(e) => handleAmount1(e.target.value)}
+                min="0"          
+                pattern="[0-9]*"
+                inputMode="decimal"
+                placeholder='0.00'
                 onKeyDown={blockInvalidChar}
+                onChange={(e) => handleAmount1(e.target.value)}
               />
             </div>
             <div className='input-group'>
@@ -132,9 +141,13 @@ function App() {
               <input 
                 className='amount-input' 
                 type='number' 
+                min="0"    
+                pattern="[0-9]*"       
+                inputMode="decimal"
+                placeholder='0.00'
+                onKeyDown={blockInvalidChar}
                 value={amount2} 
                 onChange={(e) => handleAmount2(e.target.value)}
-                onKeyDown={blockInvalidChar}
               />
             </div>
 

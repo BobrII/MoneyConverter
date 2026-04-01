@@ -34,16 +34,15 @@ body{
 
 .left-side{
   display: flex;
-  gap: 1.5rem;
+  gap: 1.1rem;
   align-items: center;
 }
 
 .right-side{
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   text-align: end;
+  gap: 0.1rem;
   justify-content: end;
 }
 
@@ -51,7 +50,8 @@ body{
   border-radius: 5px;
   border: 1px solid var(--border);
   min-width: 60px;
-  max-width: 100px;
+  max-width: 60px;
+  align-self: end;
   min-height: 25px;
   background-color: var(--bg);
   color: var(--text);
@@ -80,6 +80,7 @@ body{
   color: #666;
   margin: auto;
   
+
 }
 
 .converter{
@@ -155,7 +156,7 @@ body.dark .input-group {
   min-width: 100px;
   max-width: 100px;
   min-height: 40px;
-  align-self: flex-end;
+  align-self: end;
   background-color: var(--bg);
   color: var(--text);
   font-size: 1.2rem;
@@ -165,7 +166,7 @@ body.dark .input-group {
 }
 
 .clearButton:active{
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.5);
   transition: none;
 }
 
@@ -175,7 +176,7 @@ body.dark .input-group {
   margin: 0;
 }
 
-@media (min-width: 600px){
+@media (min-width: 900px){
 
   .left-side{
     display: flex;
@@ -185,6 +186,7 @@ body.dark .input-group {
 
   .right-side{
     display: flex;
+    flex-direction: row;
     gap: 3rem;
     align-items: center;
   }

@@ -5,6 +5,10 @@ async function fetchRates() {
     const responce = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/uah.json');
     const data = await responce.json();
 
+    const rawDate = new Date(data.date);
+
+    const formattedDAte = rawDate.toLocaleDateString();
+
     const usdRate = 1 / data.uah.usd;
     const eurRate = 1 / data.uah.eur;
     const gbpRate = 1 / data.uah.gbp;
@@ -16,7 +20,7 @@ async function fetchRates() {
         {cc: 'GBP', rate: gbpRate, txt: 'Great Britain Pound'},
         {cc: 'UAH', rate: 1, txt: 'Ukrainian Hryvna'},
       ],
-      updateDate: data.date
+      updateDate: formattedDAte
     }
       
   } catch(error){
