@@ -80,62 +80,72 @@ function App() {
   return (
     <>
       <header className='header'>
-        <div className='title'>
-          <h2>Rates carrency</h2>
+        <div className='left-side'>
+          <div className='title'>
+            <h2>Rates carrency</h2>
+          </div>
+          <div className='header_text'>
+            {isLoading ? (<p>Loading...</p>) :
+              (
+                <div className='rates'>
+                  {rates.slice(0, -1).map((item) => (
+                    <p key={item.cc}>
+                     <strong>{item.cc}</strong> - {truncate(item.rate, 2)} UAH
+                    </p>
+                  ))}
+                </div>
+              )
+            }
+          </div>
         </div>
-        <div className='header_text'>
-          {isLoading ? (<p>Loading...</p>) :
-            (
-              <div className='rates'>
-                {rates.slice(0, -1).map((item) => (
-                  <p key={item.cc}>
-                   <strong>{item.cc}</strong> - {truncate(item.rate, 2)} UAH
-                  </p>
-                ))}
-            
-              </div>
-            )
-          }
-        <p className='update_text'>Update Date: {updateDate}</p>
+        <div className='right-side'>
+          <p className='update_text'>Update Date: {updateDate}</p>
+          <button className='theme_button' onClick={toggleTheme}>
+            {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+          </button>
         </div>
-        
-        <button className='theme_button' onClick={toggleTheme}>
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
       </header>
       <main>
-        <div className='converter'>
-          <div className='input-group'>
-            <select className='currency-select' value={rate1?.cc} onChange={handChange1}>
-              {rates.map((item) => (
-                <option key={item.cc} value={item.cc}>{item.cc}</option>
-              ))}
-            </select>
-            <input 
-              className='amount-input' 
-              type='number' 
-              value={amount1} 
-              onChange={(e) => handleAmount1(e.target.value)}
-              onKeyDown={blockInvalidChar}
-            />
+        <section className='main-section'>
+          <div className='converter'>
+            <div className='inputs-wrapper'>
+               <div className='input-group'>
+              <select className='currency-select' value={rate1?.cc} onChange={handChange1}>
+                {rates.map((item) => (
+                  <option key={item.cc} value={item.cc}>{item.cc}</option>
+                ))}
+              </select>
+              <input 
+                className='amount-input' 
+                type='number' 
+                value={amount1} 
+                onChange={(e) => handleAmount1(e.target.value)}
+                onKeyDown={blockInvalidChar}
+              />
+            </div>
+            <div className='input-group'>
+              <select className='currency-select' value={rate2?.cc} onChange={handChange2}>
+                {rates.map((item) => (
+                  <option key={item.cc} value={item.cc}>{item.cc}</option>
+                ))}
+              </select>
+              <input 
+                className='amount-input' 
+                type='number' 
+                value={amount2} 
+                onChange={(e) => handleAmount2(e.target.value)}
+                onKeyDown={blockInvalidChar}
+              />
+            </div>
+
+            </div>
+           
+            <button className='clearButton' onClick={inputClear}>Clear</button>
           </div>
-          <div className='input-group'>
-            <select className='currency-select' value={rate2?.cc} onChange={handChange2}>
-              {rates.map((item) => (
-                <option key={item.cc} value={item.cc}>{item.cc}</option>
-              ))}
-            </select>
-            <input 
-              className='amount-input' 
-              type='number' 
-              value={amount2} 
-              onChange={(e) => handleAmount2(e.target.value)}
-              onKeyDown={blockInvalidChar}
-            />
-          </div>
-        </div>
+          
+        </section>
         
-        <button className='clearButton' onClick={inputClear}>Clear</button>
+       
       </main>
     </>
   )
