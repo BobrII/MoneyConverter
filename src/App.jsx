@@ -16,8 +16,6 @@ const blockInvalidChar = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preven
 function App() {
   const {rates, updateDate, isLoading} = useCurrency();
 
-  
-
   const [theme, setTheme] = useState('light');
   
   const [rate1, setRate1] = useState({});
@@ -154,6 +152,8 @@ function App() {
             </div>
            
             <button className='clearButton' onClick={inputClear}>Clear</button>
+            <button className='clearButton'>Copy</button>
+            
           </div>
           
         </section>
